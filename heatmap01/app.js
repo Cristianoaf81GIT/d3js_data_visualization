@@ -34,6 +34,13 @@ async function draw(el, scale) {
       .scaleQuantize()
       .domain(d3.extent(dataset))
       .range(["white", "pink", "red"]);
+  } else if (scale === "quantile") {
+    console.log(`escale = ${scale}`);
+    console.log(`d3.scaleQuantile = ${d3.scaleQuantile}`);
+    colorScale = d3
+      .scaleQuantile()
+      .domain(dataset)
+      .range(["white", "pink", "red"]);
   }
 
   // Rectangles
@@ -54,3 +61,4 @@ async function draw(el, scale) {
 
 draw("#heatmap1", "linear");
 draw("#heatmap2", "quantize");
+draw("#heatmap3", "quantile");
