@@ -3,7 +3,7 @@ async function draw(el, scale) {
   const dataset = await d3.json("data.json");
   dataset.sort((a, b) => a - b);
 
-  console.log(`dataset: ${JSON.stringify(dataset, null, 4)}`);
+  //console.log(`dataset: ${JSON.stringify(dataset, null, 4)}`);
   // Dimensions
   let dimensions = {
     width: 600,
@@ -34,12 +34,17 @@ async function draw(el, scale) {
       .scaleQuantize()
       .domain(d3.extent(dataset))
       .range(["white", "pink", "red"]);
+    console.log(`Quantize = ${colorScale.thresholds()}`);
   } else if (scale === "quantile") {
-    console.log(`escale = ${scale}`);
-    console.log(`d3.scaleQuantile = ${d3.scaleQuantile}`);
     colorScale = d3
       .scaleQuantile()
       .domain(dataset)
+      .range(["white", "pink", "red"]);
+    console.log(`Quantile = ${colorScale.quantiles()}`);
+  } else if (scale === "threshold") {
+    colorScale = d3
+      .scaleThreshold()
+      .domain([45200, 135600])
       .range(["white", "pink", "red"]);
   }
 
@@ -62,3 +67,4 @@ async function draw(el, scale) {
 draw("#heatmap1", "linear");
 draw("#heatmap2", "quantize");
 draw("#heatmap3", "quantile");
+draw("#heatmap4", "threshold");
